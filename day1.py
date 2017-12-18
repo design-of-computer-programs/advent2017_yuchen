@@ -1,33 +1,23 @@
-"""
-The captcha requires you to review a sequence of digits (your puzzle input) and
-find the sum of all digits that match the next digit in the list.
-The list is circular, so the digit after the last digit is the first digit in the list.
 
-For example:
+def get_sum1(captcha):
+    return sum(int(captcha[i]) for i in range(len(captcha)) if captcha[i] == captcha[i-1])
 
-1122 produces a sum of 3 (1 + 2) because the first digit (1) matches the second digit and the third digit (2) matches the fourth digit.
-1111 produces 4 because each digit (all 1) matches the next.
-1234 produces 0 because no digit matches the next.
-91212129 produces 9 because the only digit that matches the next one is the last digit, 9.
-"""
 
-def get_sum(captcha):
-    eligible = []
-    length = len(captcha)
-    for i in range(length-1):
-        if captcha[i] == captcha[i+1]:
-            eligible.append(int(captcha[i]))
+def get_sum2(captcha):
+    half_len = len(captcha)//2
+    return sum(int(captcha[i]) for i in range(len(captcha)) if captcha[i] == captcha[i - half_len])
 
-    if captcha[length-1] == captcha[0]: #judge if the last char equals to the first char
-        eligible.append(int(captcha[0]))
 
-    return sum(eligible)
+assert get_sum1('91212129') == 9
+assert get_sum1('11') == 2
+assert get_sum1('1234') == 0
+assert get_sum2('12131415') == 4
+assert get_sum2('123123') == 12
+
+print('All tests pass')
+
 
 
 captcha = input()
-print (get_sum(captcha))
-
-
-
-
-
+print (get_sum1(captcha))
+print (get_sum2(captcha))
